@@ -1,0 +1,80 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  width:550px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  background-color: #07162e;
+  padding: 30px 25px;
+  margin: 0px;
+  width:550px;
+}
+
+.nav--logo {
+  height: 28px;
+  margin-right: 8px;
+}
+
+.nav--logo_text, .nav--title {
+  margin: 0;
+}
+
+.nav--logo_text {
+  margin-right: auto;
+  color: #61DAFB;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.nav--title {
+  color: #DEEBF8;
+  font-weight: 600;
+  font-size: 18px;
+
+}
+
+
+main {
+  height: 460px;
+  padding: 57px 25px;
+  background-color: #102135 ;
+}
+
+.main--header {
+  margin:0;
+  font-weight: 700;
+  font-size: 39px;
+  letter-spacing: -0.05em;
+}
+
+.main--logo {
+  height: 16em;
+  width:9em;
+  
+  object-fit:cover;
+  object-position: 0%;
+  position:absolute;
+  right: 5.22rem;
+  top: 25vh;
+  z-index:999;
+}
+
+.main--facts {
+  margin-top:46px;
+  max-width: 400px;
+}
+
+.main--facts > li {
+  padding-block: 10px;
+  line-height: 19px;
+  font-size: 16;
+  
+}
+
+.main--facts > li::marker{
+  color: #61DAFB;
+  font-size:1.4em;
+}
