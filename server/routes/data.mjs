@@ -44,29 +44,117 @@ router.get("/wordnet", async (req, res) => {
 
 // Get top 100 words for a wordcloud
 router.get("/wordcloud", async (req, res) => {
-    let collection = await db.collection("Research");
-    
-    let results = await collection.aggregate([
-        {"$project": {"words": { "$split": [`$${req.query.column}`, ","]}, "_id": 1}},
-        {"$unwind": "$words"},
-        {"$group": {
-        "_id": "$words",
-        "count": { $sum: 1 }
-        }
-        },
-        {"$sort": {"count": -1}},
-        {"$limit": 100},
-        {
-        $project: {
-            text: "$_id",
-            value: "$count",
-            _id: 0
-        }
-    }
-    ]).toArray();
+    let collection = await db.collection("Research");;
 
-    res.send(results).status(200);
+    if(!req.query.demographic) {
+      let results = await collection.aggregate([
+          {"$project": {"words": { "$split": [`$${req.query.column}`, ","]}, "_id": 1}},
+          {"$unwind": "$words"},
+          {"$group": {
+          "_id": "$words",
+          "count": { $sum: 1 }
+          }
+          },
+          {"$sort": {"count": -1}},
+          {"$limit": 100},
+          {
+          $project: {
+              text: "$_id",
+              value: "$count",
+              _id: 0
+          }
+      }
+      ]).toArray();
+
+      res.send(results).status(200);
+    }
+    else {
+      if(req.query.demographic == "age") {
+        let results = await collection.aggregate([
+          {"$project": {
+              "words": { "$split": [`$${req.query.column}`, ","]}, 
+              "demographicValue": `$${req.query.demographic}`,
+              "_id": 1,}
+            },
+          {"$unwind": "$words"},
+          {"$group": {
+              "_id": "$words",
+              "count": { $sum: 1 },
+              "averageDemographic": { $avg: "$demographicValue" }
+              }
+          },
+          {"$match": {"count": { "$gte": 10 }}}, // Static threshold 
+          {"$sort": {"count": -1}},
+          {
+              $project: {
+                  text: "$_id",
+                  value: "$count",
+                  averageDemographic: 1,
+                  _id: 0
+               }
+          }
+        ]).toArray();
+  
+        res.send(results).status(200);
+      } else if(req.query.demographic == "sex") {
+        let results = await collection.aggregate([
+          {"$project": {
+              "words": { "$split": [`$${req.query.column}`, ","]}, 
+              "demographicValue": `$${req.query.demographic}`,
+              "_id": 1,}
+            },
+          {"$unwind": "$words"},
+          {"$group": {
+              "_id": "$words",
+              "count": { $sum: 1 },
+              "averageDemographic": { $avg: "$demographicValue" }
+              }
+          },
+          {"$match": {"count": { "$gte": req.query.threshold }}}, // assuming threshold is passed as a numeric query param
+          {"$sort": {"count": -1}},
+          {
+              $project: {
+                  text: "$_id",
+                  value: "$count",
+                  averageDemographic: 1,
+                  _id: 0
+               }
+          }
+        ]).toArray();
+  
+        res.send(results).status(200);
+      }
+
+    }
+  });
+
+// Get top 100 words for a wordcloud
+router.get("/wordcloudGender", async (req, res) => {
+  let collection = await db.collection("Research");
+  
+  let results = await collection.aggregate([
+      {"$project": {"words": { "$split": [`$${req.query.column}`, ","]}, "_id": 1}},
+      {"$unwind": "$words"},
+      {"$group": {
+      "_id": "$words",
+      "count": { $sum: 1 }
+      }
+      },
+      {"$sort": {"count": -1}},
+      {"$limit": 100},
+      {
+      $project: {
+          text: "$_id",
+          value: "$count",
+          _id: 0
+      }
+  }
+  ]).toArray();
+
+  res.send(results).status(200);
 });
+
+
 
 
 // Demographics

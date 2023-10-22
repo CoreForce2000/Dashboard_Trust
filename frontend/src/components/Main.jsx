@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CustomWordCloud from "./visualization/CustomWordCloud";
-import Barchart from "./visualization/Barchart";
+import DemographicBarchart from "./visualization/DemographicBarchart";
 import Card from "./main/Card";
 import Topbar from "./main/Topbar";
 import { baseUrl } from "../config";
@@ -15,7 +15,7 @@ export default function Main({ tab }) {
       </Card> */}
       <CustomWordCloud tab={tab} />
       <Card title="Advanced Analytics" subtitle="" />
-      {/* <Barchart column="sex"/> */}
+      <DemographicBarchart column="sex"/>
     </div>
   );
 }
