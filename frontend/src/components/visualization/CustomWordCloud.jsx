@@ -11,6 +11,30 @@ const colors = {
   "Self":["#C662D3", "#D87CE1", "#EB95EF"]
 }
 
+function getSexColor(value) {
+  const boyishBlue = [1, 117, 196]; // RGB for blue
+  const white = [200, 200, 200]; // RGB for white
+  const girlishPink = [198, 98, 211]; // RGB for pink
+  
+  function interpolate(color1, color2, factor) {
+    return color1.map((color, index) => color + factor * (color2[index] - color));
+  }
+
+  if (value <= 0.4) {
+    return `rgb(${boyishBlue.join(',')})`;
+  } else if (value >= 0.6) {
+    return `rgb(${girlishPink.join(',')})`;
+  } else {
+    const factor = (value - 0.4) / 0.2; // Normalize to a 0-1 range
+    
+    if (factor <= 0.5) {
+      return `rgb(${interpolate(boyishBlue, white, factor * 2).join(',')})`;
+    } else {
+      return `rgb(${interpolate(white, girlishPink, (factor - 0.5) * 2).join(',')})`;
+    }
+  }
+}
+
 
 function CustomWordCloud({ tab }) {
   const [data, setData] = useState([]);
@@ -37,14 +61,20 @@ function CustomWordCloud({ tab }) {
 
       setData(result);
 
-
       var options = {
         rotations: 2,
         rotationAngles: [0],
         fontSizes: [minValue, maxValue],
         spiral: 'archimedean', // oval-like shape
-        colors: colors[tab]
+        // color:getWordColor
+        // color: colors[tab]
+
+        // colors: result.map(word => getWordColor(word.averageBinarySex))
+        colors:result.map(word => getSexColor(word.averageBinarySex))
       };
+
+      // console.log(result.map(word => getSexColor(word.averageBinarySex)))
+
       setOptions(options);
     } catch (error) {
       console.error('Error fetching data:', error);
