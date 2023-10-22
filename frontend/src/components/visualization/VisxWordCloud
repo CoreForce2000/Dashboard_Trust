@@ -1,52 +1,50 @@
-// import React, { useEffect, useState } from 'react';
-// import { Group } from '@visx/group';
-// import { Text } from '@visx/text';
-// import cloud from 'd3-cloud';
+import React, { useEffect, useState } from 'react';
+import { Group } from '@visx/group';
+import { Text } from '@visx/text';
+import cloud from 'd3-cloud';
+// import { svg } from '@visx/shape';
+// import { Wordcloud } from '@visx/wordcloud';
+import Wordcloud from '@visx/wordcloud/lib/Wordcloud';
+import { scaleOrdinal } from 'd3-scale';
+import { schemeCategory10 } from 'd3-scale-chromatic';
 
-// // Dummy data
-// const wordsData = [
-//   // your words data here with the following structure
-//   // { text: 'word', value: 100, averageBinarySex: 0.5 },
-// ];
 
-// function WordCloud({ width, height }) {
-//   const [words, setWords] = useState([]);
+// Dummy data
+const wordsData = [
+  // your words data here with the following structure
+  // { text: 'word', value: 100, averageBinarySex: 0.5 },
+];
 
-//   const colorScale = (averageBinarySex) => {
-//     // Define your getSexColor function logic here
-//     return averageBinarySex > 0.5 ? 'blue' : 'pink';
-//   };
+function VisxWordCloud({ width, height }) {
+  const [words, setWords] = useState([]);
 
-//   useEffect(() => {
-//     cloud()
-//       .size([width, height])
-//       .words(wordsData)
-//       .padding(5)
-//       .rotate(() => 0) // rotation logic here if needed
-//       .fontSize((d) => d.value) // or any logic you prefer
-//       .on('end', setWords)
-//       .start();
-//   }, [width, height]);
 
-//   return (
-//     <svg width={width} height={height}>
-//       <Group>
-//         {words.map((word) => (
-//           <Text
-//             key={word.text}
-//             x={word.x}
-//             y={word.y}
-//             fontSize={word.size}
-//             textAnchor="middle"
-//             fill={colorScale(word.averageBinarySex)}
-//             transform={`translate(${width / 2}, ${height / 2}) rotate(${word.rotate})`}
-//           >
-//             {word.text}
-//           </Text>
-//         ))}
-//       </Group>
-//     </svg>
-//   );
-// }
+  // Mock Data
+  const wordsData = [
+    { text: 'Man', value: 100, binaryGender: 1 },
+    { text: 'Woman', value: 80, binaryGender: 0 },
+    // ... Add more words here
+  ];
+  
+  const colorScale = scaleOrdinal(schemeCategory10);
+  
+    return (
+        // <svg width={300} height={300}>
+        <Wordcloud 
+        
+        words={wordsData}
+        width={300}
+        height={300}
+        random={Math.random}
+        fontSize={({ datum }) => datum.value}
+        rotate={0}
+        color={({ datum }) =>
+        colorScale(datum.binaryGender === 1 ? 'male' : 'female')
+        }
+        />
+        // </svg>
+    );
+}
+ 
 
-// export default WordCloud;
+export default VisxWordCloud;
