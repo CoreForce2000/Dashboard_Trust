@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import CustomWordCloud from "./CustomWordCloud";
-import Card from "./Card";
-import Topbar from "./Topbar";
+import CustomWordCloud from "./visualization/CustomWordCloud";
+import Barchart from "./visualization/Barchart";
+import Card from "./main/Card";
+import Topbar from "./main/Topbar";
 import { baseUrl } from "../config";
 
 export default function Main({ tab }) {
-
 
   return (
     <div className="main-content">
@@ -14,6 +14,8 @@ export default function Main({ tab }) {
           
       </Card> */}
       <CustomWordCloud tab={tab} />
+      <Card title="Advanced Analytics" subtitle="" />
+      {/* <Barchart column="sex"/> */}
     </div>
   );
 }
