@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@visx/group": "^3.3.0",
+    "@visx/scale": "^3.3.0",
     "@visx/text": "^3.3.0",
     "@visx/wordcloud": "^3.3.0",
     "d3": "^7.8.5",
@@ -21,6 +22,8 @@
     "vis-network": "^9.1.8"
   },
   "devDependencies": {
+    "@types/react": "^16.14.21",
+    "@types/react-dom": "^16.9.15",
     "@vitejs/plugin-react": "^4.0.3",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.32.2",
