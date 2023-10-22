@@ -1,0 +1,42 @@
+.title {
+  color:"white";
+  font-size: 30px;
+  text-align: center;
+  padding: 30px 40px 30px 40px;
+  text-wrap: nowrap;
+}
+
+.sidebar {
+  color:#87888C;
+  font-size:17px;
+  border-right:1px solid #2C2D33;
+  margin-right: 20px;
+}
+.buttonWord, .buttonPerson, .buttonBrand, .buttonSelf {
+  background-color:#17182120;
+  padding: 30px 40px 30px 40px;
+  margin: 0px 0px 0px 0px;
+  will-change: filter;
+  transition: filter 500ms;
+}
+
+.buttonWord:hover {
+  filter: drop-shadow(0 0 1em rgb(1, 137, 216));
+  color:rgb(1, 173, 216);
+  cursor:pointer;
+}
+.buttonPerson:hover {
+  filter: drop-shadow(0 0 1em rgb(1, 221, 118));
+  color:rgb(1, 221, 118);
+  cursor:pointer;
+}
+.buttonBrand:hover {
+  filter: drop-shadow(0 0 1em rgb(218, 108, 64));
+  color:rgb(218, 108, 64);
+  cursor:pointer;
+}
+.buttonSelf:hover {
+  filter: drop-shadow(0 0 1em rgb(200, 64, 218));
+  color:rgb(198, 98, 211);
+  cursor:pointer;
+}

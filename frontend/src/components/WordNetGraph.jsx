@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { DataSet, Network } from 'vis-network/standalone/esm/vis-network';
 import { baseUrl } from '../config';
 
-let node_list = await fetch(`${baseUrl}/posts/associations`).then(resp => resp.json());
+let node_list = await fetch(`${baseUrl}/posts/wordnet`).then(resp => resp.json());
 
 
 function WordNetGraph() {
@@ -11,16 +11,14 @@ function WordNetGraph() {
 
     console.log(node_list)
 
+    node_list.forEach((node, i) => {      
+      node.value = node.value / 10;
+      // node.weight = node.value;
+
+    })
+
     const nodes = new DataSet(
       node_list
-      // [
-      // { id: 1, label: 'Word1' },
-      // { id: 2, label: 'Word2' },
-      // { id: 3, label: 'Word3' },
-      // { id: 4, label: 'Word4' },
-      // { id: 5, label: 'Word5' },
-      // Add more nodes here
-    // ]
     );
 
     // Define your edges with weights
@@ -28,6 +26,7 @@ function WordNetGraph() {
       { from: 1, to: 2, value: 1, label: 'weight: 5' },
       // Add more edges here with a value property as the weight
     ]);
+
 
     // Provide the data in the vis network format
     const data = {
@@ -38,6 +37,23 @@ function WordNetGraph() {
     const options = {
       layout: {
         hierarchical: false,
+      },
+      nodes: {
+        shape: "dot",
+        scaling: {
+          min: 10,
+          max: 30,
+          label: {
+            min: 8,
+            max: 30,
+            drawThreshold: 12,
+            maxVisible: 20,
+          },
+        },
+        font: {
+          size: 12,
+          face: "Tahoma",
+        },
       },
       edges: {
         color: '#000000',
@@ -51,11 +67,11 @@ function WordNetGraph() {
       },
       physics: {
         stabilization: false,
-        forceAtlas2Based: {
-          gravitationalConstant: -10000,
-          springConstant: 0.1, // Increase spring constant
-          centralGravity: 0.3,
-          springLength: 100, // Decrease spring length
+        barnesHat: {
+          gravitationalConstant: 10,
+          springConstant: 0.5, // Increase spring constant
+          centralGravity: 0.9,
+          springLength: 1, // Decrease spring length
         },
       },
       interaction: { dragNodes: true },

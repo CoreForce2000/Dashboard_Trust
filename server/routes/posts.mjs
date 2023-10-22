@@ -13,9 +13,8 @@ router.get("/", async (req, res) => {
     res.send(results).status(200);
 });
 
-
-// Fetches associations
-router.get("/associations", async (req, res) => {
+// Get top 100 words for a wordnet
+router.get("/wordnet", async (req, res) => {
     let collection = await db.collection("Research");
     let results = await collection.aggregate([
       {"$project": {"words": { "$split": ["$WORD_association", ","]}, "_id": 1}},
@@ -30,7 +29,7 @@ router.get("/associations", async (req, res) => {
       {
         $project: {
             label: "$_id",
-            // count: 1,
+            value: "$count",
             _id: 0
         }
     }
@@ -44,53 +43,30 @@ router.get("/associations", async (req, res) => {
     res.send(results).status(200);
   });
 
-// Fetches the latest posts
-router.get("/latest", async (req, res) => {
-    let collection = await db.collection("posts");
+// Get top 100 words for a wordcloud
+router.get("/wordcloud", async (req, res) => {
+    let collection = await db.collection("Research");
     let results = await collection.aggregate([
-      {"$project": {"author": 1, "title": 1, "tags": 1, "date": 1}},
-      {"$sort": {"date": -1}},
-      {"$limit": 3}
+        {"$project": {"words": { "$split": [`$${req.query.field}`, ","]}, "_id": 1}},
+        {"$unwind": "$words"},
+        {"$group": {
+        "_id": "$words",
+        "count": { $sum: 1 }
+        }
+        },
+        {"$sort": {"count": -1}},
+        {"$limit": 100},
+        {
+        $project: {
+            text: "$_id",
+            value: "$count",
+            _id: 0
+        }
+    }
     ]).toArray();
 
     res.send(results).status(200);
-  });
-
-
-// Get a single post
-router.get("/:id", async (req, res) => {
-    let collection = await db.collection("posts");
-    let query = {_id: ObjectId(req.params.id)};
-    let result = await collection.findOne(query);
-    if (!result) res.send("Not found").status(404);
-    else res.send(result).status(200);
-  });
-
-// Add a new document to the collection
-router.post("/", async (req, res) => {
-    let collection = await db.collection("posts");
-    let newDocument = req.body;
-    newDocument.date = new Date();
-    let result = await collection.insertOne(newDocument);
-    res.send(result).status(204);
-  });
-
-  // Update the post with a new comment
-router.patch("/comment/:id", async (req, res) => {
-    const query = { _id: ObjectId(req.params.id) };
-    const updates = {
-      $push: { comments: req.body }
-    };
-    let collection = await db.collection("posts");
-    let result = await collection.updateOne(query, updates);
-    res.send(result).status(200);
-  });
-
-router.delete("/:id", async (req, res) => {
-    const query = { _id: ObjectId(req.params.id)};
-    const collection = db.collection("posts");
-    let result = await collection.deleteOne(query);
-    res.send(result).status(200);
 });
+
 
 export default router;

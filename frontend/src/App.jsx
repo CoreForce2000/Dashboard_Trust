@@ -1,16 +1,16 @@
 import './App.css'
-import Navbar from './components/Navbar.jsx'
+import Sidebar from './components/Sidebar.jsx'
 import Main from './components/Main.jsx'
-import WordNetGraph from './components/WordNetGraph'
+import { useState } from 'react';
 
 export default function App() {
 
+  const [tab, setTab] = useState("Word");
+
   return (
-    <div className='container'>
-
-      <WordNetGraph />
-          
+    <div className="dashboard-container" style={{display:"flex"}}>
+      <Sidebar setTab={setTab}/>
+      <Main tab={tab}/>
     </div>
-
   )
 }
