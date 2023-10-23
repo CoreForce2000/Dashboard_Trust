@@ -13,8 +13,8 @@ export default function App() {
 
   return (
     <div className="dashboard-container">
-      <Sidebar setHypothesis={setHypothesis}/>
-      <Main hypothesis={hypothesis}/>
+      <Sidebar setTab={setTab}/>
+      <Main tab={tab}/>
     </div>
   )
 }

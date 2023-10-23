@@ -4,7 +4,7 @@
   font-weight: 400;
 
   color-scheme: dark dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(255, 255, 255, 1);
   background-color: #171821;
 
   font-synthesis: none;
@@ -14,12 +14,17 @@
   -webkit-text-size-adjust: 100%;
 
   --text-color-primary: #87888C;
+  --bs-body-color: "white";
+
+
+  --secondary-color: "rgb(1, 221, 118)"
 
 }
 
 body {
   min-height: 100vh;
   background-color: #171821;
+  font-family:Inter;
 }
 
 a {

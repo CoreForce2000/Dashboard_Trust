@@ -12,8 +12,9 @@ const colors = {
 }
 
 function getThemeColor(tab) {
-  return colors[tab][Math.floor(Math.random() * colors[tab].length)];
+  return colors[tab][1];
 }
+
 
 
 function getSexColor(percentageDifference) {
@@ -38,12 +39,28 @@ function getSexColor(percentageDifference) {
     factor = 0;
   }
 
+  // console.log(
+  //   [interpolate(white, girlishPink, 1.7),
+  //   interpolate(white, girlishPink, 1),
+  //   interpolate(white, boyishBlue, 0),
+  //   interpolate(white, boyishBlue, 1),
+  //   interpolate(white, boyishBlue, 1.7)]
+  // );
+
   if (percentageDifference <= 0) {
-    return `rgb(${interpolate(white, boyishBlue, factor).join(',')})`;
+    return `rgb(${interpolate(boyishBlue, white,  percentageDifference*15 ).join(',')})`;
   } else {
-    return `rgb(${interpolate(white, girlishPink, factor ).join(',')})`;
+    return `rgb(${interpolate(white, girlishPink,  percentageDifference*15 ).join(',')})`;
   }
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -67,6 +84,10 @@ function CustomWordCloud({ tab, hypothesis }) {
       var maxValue = 100;
 
       result.forEach((word) => {
+        word.frequency = word.value;
+        word.percentage = (word.frequency / (maleTotalCount + femaleTotalCount)).toLocaleString(undefined, { style: 'percent' });
+        
+        
         word.value = (word.value / 3);
         if (word.value > maxValue) {
           maxValue = word.value;
@@ -80,23 +101,25 @@ function CustomWordCloud({ tab, hypothesis }) {
 
         word.sexPercentDifference = ((word.FemaleCount / femaleTotalCount) - (word.MaleCount / maleTotalCount));
       });
-
+      
       setData(result);
 
       if(hypothesis == "Gender") {
         setCallbacks( {
           getWordColor:  word => getSexColor(word.sexPercentDifference),
-          onWordClick: console.log,
-          onWordMouseOver: console.log,
-          getWordTooltip: word => `${word.text} (${word.value}) [${word.value > 50 ? "good" : "bad"}]`,
+          // onWordClick: console.log,
+          // onWordMouseOver: console.log,
+          getWordTooltip: word => `${word.text} count: ${word.frequency} (${word.percentage})`,
         })
 
       }else{
         setCallbacks( {
           getWordColor:  word => getThemeColor(tab),
-          onWordClick: console.log,
-          onWordMouseOver: console.log,
-          getWordTooltip: word => `${word.text} (${word.value}) [${word.value > 50 ? "good" : "bad"}]`,
+          // onWordClick: console.log,
+          // onWordMouseOver: console.log,
+          getWordTooltip: word => `${word.text} count: ${word.frequency} (${word.percentage})`,
+
+
         })
       }
 
@@ -105,6 +128,8 @@ function CustomWordCloud({ tab, hypothesis }) {
         rotationAngles: [0],
         fontSizes: [minValue, maxValue],
         spiral: 'archimedean', // oval-like shape
+        // fontFamily: 'Inter',
+        fontColor: "white"
       });
 
 
