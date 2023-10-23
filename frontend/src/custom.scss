@@ -1,0 +1,7 @@
+// custom.scss
+
+// Override the default primary color
+$primary: green;
+
+// Import bootstrap to apply the changes
+@import '~bootstrap/scss/bootstrap';

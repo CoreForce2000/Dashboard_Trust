@@ -149,6 +149,36 @@ router.get('/demographics', async (req, res) => {
     res.send(results).status(200);
 });
 
+// Demographics
+router.get('/valuecount', async (req, res) => {
+    let collection = await db.collection("Research");  
+    let results = await collection.aggregate([
+        {
+            "$group": { 
+                "_id": `$${req.query.column}`, 
+                "count": { "$sum": 1 }
+            }
+        },
+        {
+            "$sort": {"count": -1}
+        },
+        {
+            "$limit": 15
+        },
+        {
+            "$project": {
+                "value": "$count",
+                "name": "$_id",
+                "_id": 0
+            }
+        }
+    ]
+    ).limit(20).toArray()
+    
+    // Sending the result as a response
+    res.send(results).status(200);
+});
+
 router.get('/avgAge', async (req, res) => {
     let collection = await db.collection("Research");
 

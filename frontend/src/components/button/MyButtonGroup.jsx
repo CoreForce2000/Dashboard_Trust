@@ -1,16 +1,34 @@
-import Pagination from 'react-bootstrap/Pagination';
+import GlowButton from './GlowButton';
+import MyButtonGroupStyle from './MyButtonGroup.module.css'
 
 function MyButtonGroup( { hypothesis, setHypothesis } ) {
 
   let style = {width:"100px", textAlign:"center"}
 
   return (
-    <Pagination data-bs-theme="dark">
-      <Pagination.Item style={style} key={1} active={hypothesis==="Gender"} onClick={()=> setHypothesis("Gender")}>Gender</Pagination.Item>
-      <Pagination.Item style={style}key={2} active={hypothesis==="Overview"} onClick={()=> setHypothesis("Overview")}>Overview</Pagination.Item>
-      <Pagination.Item style={style}key={3} active={hypothesis==="Age"} onClick={()=> setHypothesis("Age")}>Age</Pagination.Item>
+    <div className={MyButtonGroupStyle.group}>
+      <GlowButton 
+      children={"Gender"} 
+      color={"rgb(1, 221, 118)"} 
+      active={hypothesis==="Gender"} 
+      onClick={()=> setHypothesis("Gender")}
+      />
 
-    </Pagination>
+      <GlowButton 
+          children={"Overview"} 
+          color={"rgb(1, 221, 118)"} 
+          active={hypothesis==="Overview"} 
+          onClick={()=> setHypothesis("Overview")}
+      />
+
+      <GlowButton 
+          children={"Age"} 
+          color={"rgb(1, 221, 118)"} 
+          active={hypothesis==="Age"} 
+          onClick={()=> setHypothesis("Age")}
+      />
+    </div>
+
   );
 }
 

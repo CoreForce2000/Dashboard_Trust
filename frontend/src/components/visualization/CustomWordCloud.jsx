@@ -49,10 +49,6 @@ function getAgeColor(percentageDifference) {
   }
 }
 
-
-
-
-
 function CustomWordCloud({ tab, hypothesis }) {
   const [data, setData] = useState([]);
   const [callbacks, setCallbacks] = useState({});
@@ -131,7 +127,7 @@ function CustomWordCloud({ tab, hypothesis }) {
         setCallbacks( {
           getWordColor:  word => getThemeColor(tab),
           // onWordClick: console.log,
-          // onWordMouseOver: console.log,          
+          // onWordMouseOver: console.log,       
           getWordTooltip: word => `"${word.text}", count: ${word.frequency} (${word.percentage})`,
         })
       }

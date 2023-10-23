@@ -16,18 +16,55 @@
   --text-color-primary: #87888C;
 
   --bs-body-color: "white";
-  --bs-btn-bg: "rgb(1, 221, 118, 0)";
+  /* --bs-body-bg: "#171821"; */
+
+  --secondary-color: rgb(1, 221, 118);
+
+  --bs-btn-bg: rgb(1, 221, 118, 0);
   --bs-btn-color: var(--text-color-primary);
-
-  --secondary-color: "rgb(1, 221, 118)"
-
 }
+
+/* Change the text color of pagination links */
+.page-link {
+  color: var(--secondary-color)
+}
+.page-link:hover {
+  background-color: var(--text-color-primary)
+}
+
+/* Change the background color and border of the active pagination item */
+.page-item.active .page-link {
+  background-color: transparent !important;
+  border-color: var(--secondary-color);
+  color:var(--secondary-color);
+}
+
+/* Change the hover and focus styles of pagination links */
+.page-item > .page-link:focus,
+.page-item > .page-link:hover {
+  background-color: transparent !important;
+  border-color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+.page-item {
+  background-color: transparent !important;
+}
+
+.page-item > a:hover {
+  border: 1px solid var(--secondary-color);
+}
+
 
 body {
   min-height: 100vh;
   background-color: #171821;
   font-family:Inter;
+  font-weight: bold;
+  text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
 }
+
 
 a {
   font-weight: 500;

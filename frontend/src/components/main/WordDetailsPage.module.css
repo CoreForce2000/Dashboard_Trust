@@ -1,0 +1,12 @@
+.wordDetailPage {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    height:100vh;
+}
+
+.column {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}

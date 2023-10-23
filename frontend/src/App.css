@@ -9,7 +9,9 @@
   padding:0;
   font-family: 'Inter', sans-serif;
   /* overflow:hidden; */
+  text-shadow: none;
 }
+
 
 .title {
   font-size: 30px;
@@ -24,12 +26,15 @@
   text-wrap: nowrap;
 }
 
-.instructionTitle {
-  flex-grow:1;
-  color:"white";
+
+.columnTitle {
+  display:block;
   font-size: 28px;
   font-family:'Times New Roman', Times, serif;
   text-align: center;
   padding: 30px 40px 30px 40px;
-  text-wrap: nowrap;
+  /* text-wrap: nowrap; */
+  margin-left:20px;
+  margin-right:20px;
+  border-bottom:1px solid #2C2D33;
 }
