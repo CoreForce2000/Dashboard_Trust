@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import CustomWordCloud from "./visualization/CustomWordCloud";
-import ButtonGroup from 'react-bootstrap/esm/ButtonGroup';
+import ButtonGroup from './button/MyButtonGroup';
 import GlowButton from "./button/GlowButton";
 import DemographicBarchart from "./visualization/DemographicBarchart";
 import Card from "./main/Card";
 import Inlay from "./main/Inlay";
 import MainStyle from './Main.module.css';
 import Legend from './visualization/Legend';
+import HorizontalBarChart from './visualization/HorizontalBarChart';
 
-export default function Main({ hypothesis }) {
+export default function Main({ tab }) {
 
-  const [tab, setTab] = useState("Word");
+
+  const [hypothesis, setHypothesis] = useState("Overview");
 
   const questions = {
     "Word":"Write as many associations as you can with the word TRUST",
@@ -43,29 +45,33 @@ export default function Main({ hypothesis }) {
     "Age":legendAge
   }
 
+  
 
 
   return (
     <div className={MainStyle.main}>
       <div className={MainStyle.wordcloud}>
 
-        <ButtonGroup className={MainStyle.buttonGroup} style={{visibility:"hidden", height:"13px"}}>
-          <div className={MainStyle.stretchButton}> <GlowButton children={<h3 className="title">{"'Trust'"}</h3>} color={"rgb(1, 137, 216)"} onClick={()=>setTab("Word")}/> </div>
-          <div className={MainStyle.stretchButton}> <GlowButton children={<h3 className="title">{"Trusted Person"}</h3>} color={"rgb(1, 221, 118)"} onClick={()=>setTab("Person")}/> </div>
-          <div className={MainStyle.stretchButton}> <GlowButton children={<h3 className="title">{"Trusted Brand"}</h3>} color={"rgb(218, 108, 64)"} onClick={()=>setTab("Brand")}/> </div>
-          <div className={MainStyle.stretchButton}> <GlowButton children={<h3 className="title">{"Trust Me"}</h3>} color={"rgb(200, 64, 218)"} onClick={()=>setTab("Self")}/> </div>
-        </ButtonGroup>
+          {/* <GlowButton children={"Overview"} color={"white"} onClick={()=>setHypothesis("Overview")}/>
+          <GlowButton children={"Gender"} color={"white"} onClick={()=>setHypothesis("Gender")}/>
+          <GlowButton children={"Age"} color={"white"} onClick={()=>setHypothesis("Age")}/> */}
+
 
         {/* <Card title={questions[tab]}> */}
-          <div style={{display:"flex", justifyContent:"center", padding:"10px", fontSize:"31px"}}>{questions[tab]}</div>
-          <div style={{display:"flex", flexGrow:1, padding:"20px", color:"white"}}>
+          {/* <div style={{display:"flex", justifyContent:"center", padding:"10px", fontSize:"31px"}}>{questions[tab]}</div> */}
+          <div className={MainStyle.instructionDiv}>
+            <div className="instructionTitle">{questions[tab]}</div>
+          </div>
+
+          <div style={{display:"flex", flexGrow:1, color:"white"}}>
             <CustomWordCloud tab={tab} hypothesis={hypothesis}/>
           </div>
           <div style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-            <div> Female </div>
-            {legend[hypothesis]}
-            <div> Male </div>
+            <ButtonGroup hypothesis={hypothesis} setHypothesis={setHypothesis}></ButtonGroup>
+
           </div>
+
+          <HorizontalBarChart></HorizontalBarChart>
           
         {/* </Card> */}
 

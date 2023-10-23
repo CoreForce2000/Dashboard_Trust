@@ -5,11 +5,8 @@ import { useState } from 'react';
 
 export default function App() {
 
-  const [hypothesis, setHypothesis] = useState("Overview");
-
+  const [tab, setTab] = useState("Word");
   
-  console.log(hypothesis)
-
 
   return (
     <div className="dashboard-container">

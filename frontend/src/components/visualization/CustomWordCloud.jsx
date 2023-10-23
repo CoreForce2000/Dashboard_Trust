@@ -1,6 +1,7 @@
 import React from 'react';
 import WordCloud from 'react-wordcloud';
 import { baseUrl } from '../../config';
+import { normalizeNumbers } from '../../helpers';
 import { useEffect, useState } from 'react';
 
 const colors = {
@@ -12,53 +13,41 @@ const colors = {
 }
 
 function getThemeColor(tab) {
-  return colors[tab][1];
+  return "rgb(97, 212, 161)"; //colors["Person"][0];
 }
 
-
+function interpolate(color1, color2, factor) {
+  return color1.map((color, index) => color + factor * (color2[index] - color));
+}
+function interpolateInverse(color1, color2, factor) {
+  return color1.map((color, index) => color - factor * (color2[index] - color));
+}
 
 function getSexColor(percentageDifference) {
   const boyishBlue = [1, 117, 196]; // RGB for blue
-  const white = [160, 160, 160]; // RGB for white
+  const limeGreen = [147, 212, 183]
+  // const white = [220, 220, 220]; // RGB for white
   const girlishPink = [198, 98, 211]; // RGB for pink
 
-  function interpolate(color1, color2, factor) {
-    return color1.map((color, index) => color + factor * (color2[index] - color));
-  }
-
-  const significant = 0.0513;
-  const highlySignificant = 0.0674;
-
-  let factor;
-
-  if (Math.abs(percentageDifference) > highlySignificant) {
-    factor = 1.7;
-  }else if (Math.abs(percentageDifference) > significant) {
-    factor = 1;
-  }else{
-    factor = 0;
-  }
-
-  // console.log(
-  //   [interpolate(white, girlishPink, 1.7),
-  //   interpolate(white, girlishPink, 1),
-  //   interpolate(white, boyishBlue, 0),
-  //   interpolate(white, boyishBlue, 1),
-  //   interpolate(white, boyishBlue, 1.7)]
-  // );
-
   if (percentageDifference <= 0) {
-    return `rgb(${interpolate(boyishBlue, white,  percentageDifference*15 ).join(',')})`;
+    return `rgb(${interpolateInverse(limeGreen, boyishBlue,  percentageDifference*15 ).join(',')})`;
   } else {
-    return `rgb(${interpolate(white, girlishPink,  percentageDifference*15 ).join(',')})`;
+    return `rgb(${interpolate(limeGreen, girlishPink,  percentageDifference*15 ).join(',')})`;
   }
 }
 
+function getAgeColor(percentageDifference) {
+  const boyishBlue = [1, 117, 196]; // RGB for blue
+  // const white = [220, 220, 220]; // RGB for white
+  const limeGreen = [147, 212, 183]
+  const oldishOrange = [198, 150, 100]; // RGB for pink
 
-
-
-
-
+  if (percentageDifference <= 0) {
+    return `rgb(${interpolateInverse(limeGreen, boyishBlue,  percentageDifference/5 ).join(',')})`;
+  } else {
+    return `rgb(${interpolate(limeGreen, oldishOrange,  percentageDifference/5 ).join(',')})`;
+  }
+}
 
 
 
@@ -74,33 +63,51 @@ function CustomWordCloud({ tab, hypothesis }) {
     try {
       setLoading(true); // Set loading to true when starting to fetch
       let wordColumn = `${tab.toUpperCase()}_association`;
-      let result = await fetch(`${baseUrl}/data/wordcloud?column=${wordColumn}`).then(resp => resp.json()); // Don't forget to await here
-      let sex_demographics = await fetch(`${baseUrl}/data/demographics?column=sex`).then(resp => resp.json()); // Don't forget to await here
+      let result = await fetch(`${baseUrl}/data/wordcloud?column=${wordColumn}`).then(resp => resp.json()); 
+      let sex_demographics = await fetch(`${baseUrl}/data/demographics?column=sex`).then(resp => resp.json()); 
+      let age_demographics = await fetch(`${baseUrl}/data/avgAge`).then(resp => resp.json()); 
+
+      let avgAge = age_demographics[0].averageAge;
 
       let maleTotalCount = sex_demographics[0].result.Male;
       let femaleTotalCount = sex_demographics[0].result.Female;
 
-      var minValue = 0;
-      var maxValue = 100;
+      let wordValues = []
+      result.forEach((word) => wordValues.push(word.value));
 
-      result.forEach((word) => {
+      let normalizedValues = normalizeNumbers(wordValues);
+
+      let minSize = 20;
+      let maxSize = 160;
+
+      result.forEach((word, i) => {
         word.frequency = word.value;
         word.percentage = (word.frequency / (maleTotalCount + femaleTotalCount)).toLocaleString(undefined, { style: 'percent' });
         
+        word.value = (normalizedValues[i] * (maxSize)) < minSize ? minSize : (normalizedValues[i] * (maxSize));
+
+        word.percentageFemale = (word.FemaleCount / femaleTotalCount)
+        word.percentageMale = (word.MaleCount / maleTotalCount)
+
+        word.sexPercentDifference = (word.percentageFemale - word.percentageMale);
+
+        word.ageDifference = (word.averageAge - avgAge);
+
+        const significant = 0.0513;
+        const highlySignificant = 0.0674;
+
+        if(Math.abs(word.sexPercentDifference) > significant) {
+          word.pValue = "p<.05"
+        }else if(Math.abs(word.sexPercentDifference) > highlySignificant) {
+          word.pValue = "p<.01"
+        }else{
+          word.pValue = "n.s."
+        }
         
-        word.value = (word.value / 3);
-        if (word.value > maxValue) {
-          maxValue = word.value;
-        }
-        if (word.value < minValue) {
-          minValue = word.value;
-        }
-
-        let percentageFemale = (word.FemaleCount / femaleTotalCount)
-        let percentageMale = (word.MaleCount / femaleTotalCount)
-
-        word.sexPercentDifference = ((word.FemaleCount / femaleTotalCount) - (word.MaleCount / maleTotalCount));
+        // console.log(ageDifference)
+          
       });
+
       
       setData(result);
 
@@ -109,24 +116,30 @@ function CustomWordCloud({ tab, hypothesis }) {
           getWordColor:  word => getSexColor(word.sexPercentDifference),
           // onWordClick: console.log,
           // onWordMouseOver: console.log,
-          getWordTooltip: word => `${word.text} count: ${word.frequency} (${word.percentage})`,
+          getWordTooltip: word => `"${word.text}", f: ${word.percentageFemale.toLocaleString(undefined, { style: 'percent' })} m: ${word.percentageMale.toLocaleString(undefined, { style: 'percent' })}, ${word.pValue}`,
+        })
+
+      }else if(hypothesis == "Age") {
+        setCallbacks( {
+          getWordColor:  word => getAgeColor(word.ageDifference),
+          // onWordClick: console.log,
+          // onWordMouseOver: console.log,
+          getWordTooltip: word => `"${word.text}", mean age: ${Math.round(word.averageAge)}`,
         })
 
       }else{
         setCallbacks( {
           getWordColor:  word => getThemeColor(tab),
           // onWordClick: console.log,
-          // onWordMouseOver: console.log,
-          getWordTooltip: word => `${word.text} count: ${word.frequency} (${word.percentage})`,
-
-
+          // onWordMouseOver: console.log,          
+          getWordTooltip: word => `"${word.text}", count: ${word.frequency} (${word.percentage})`,
         })
       }
 
       setOptions( {
         rotations: 2,
         rotationAngles: [0],
-        fontSizes: [minValue, maxValue],
+        fontSizes: [minSize, maxSize],
         spiral: 'archimedean', // oval-like shape
         // fontFamily: 'Inter',
         fontColor: "white"

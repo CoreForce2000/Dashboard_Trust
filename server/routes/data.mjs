@@ -86,7 +86,7 @@ router.get("/wordcloud", async (req, res) => {
           }
       },
       {
-          "$match": {"count": { "$gte": 10 }} 
+          "$match": {"count": { "$gte": 30 }} 
       },
       {
           "$sort": {"count": -1}
@@ -123,6 +123,9 @@ router.get('/demographics', async (req, res) => {
             "$sort": {"count": -1}
         },
         {
+            "$limit": 20
+        },
+        {
             "$group": {
                 "_id": null,
                 "data": {
@@ -140,11 +143,34 @@ router.get('/demographics', async (req, res) => {
             }
         }
     ]
-    ).toArray()
+    ).limit(20).toArray()
     
     // Sending the result as a response
     res.send(results).status(200);
 });
+
+router.get('/avgAge', async (req, res) => {
+    let collection = await db.collection("Research");
+
+    // You can pass the column name as a query parameter
+    let columnName = req.query.column ? `$${req.query.column}` : null;
+
+    let pipeline = [
+        {
+            "$group": {
+                "_id": columnName,
+                "averageAge": { "$avg": "$age" } // assuming the age field is named "age"
+            }
+        }
+    ];
+
+    let results = await collection.aggregate(pipeline).toArray();
+
+    // Sending the result as a response
+    res.send(results).status(200);
+});
+
+
 
 
 export default router;

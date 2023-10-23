@@ -14,8 +14,10 @@
   -webkit-text-size-adjust: 100%;
 
   --text-color-primary: #87888C;
-  --bs-body-color: "white";
 
+  --bs-body-color: "white";
+  --bs-btn-bg: "rgb(1, 221, 118, 0)";
+  --bs-btn-color: var(--text-color-primary);
 
   --secondary-color: "rgb(1, 221, 118)"
 
