@@ -5,12 +5,16 @@ import { useState } from 'react';
 
 export default function App() {
 
-  const [tab, setTab] = useState("Word");
+  const [hypothesis, setHypothesis] = useState("Overview");
+
+  
+  console.log(hypothesis)
+
 
   return (
-    <div className="dashboard-container" style={{display:"flex"}}>
-      <Sidebar setTab={setTab}/>
-      <Main tab={tab}/>
+    <div className="dashboard-container">
+      <Sidebar setHypothesis={setHypothesis}/>
+      <Main hypothesis={hypothesis}/>
     </div>
   )
 }

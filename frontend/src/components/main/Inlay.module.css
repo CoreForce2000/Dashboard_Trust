@@ -1,0 +1,7 @@
+.inlay {
+    display:flex;
+    flex-direction: column;
+    flex-grow:1;
+    background-color:#0e0e13;
+    padding: 25px 20px 25px 20px;
+}

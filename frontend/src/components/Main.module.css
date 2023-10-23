@@ -1,0 +1,21 @@
+.main {
+    flex-grow:1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.wordcloud {
+    display:flex;
+    flex-direction: column;
+    height:95vh;
+}
+
+.buttonGroup {
+    border-bottom:1px solid #2C2D33;
+}
+
+.stretchButton {
+    flex-grow:1; 
+    text-align:center; 
+}

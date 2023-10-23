@@ -1,0 +1,13 @@
+.glowButton {
+    background-color:#17182120;
+    margin: 0px;
+    /* padding: 30px 40px 30px 40px; */
+    will-change: filter;
+    transition: filter 500ms;
+  }
+  
+.glowButton:hover {
+filter: drop-shadow(0 0 1em var(--glow-color));
+color:var(--glow-color);
+cursor:pointer;
+}

@@ -1,14 +1,14 @@
 import SidebarStyle from './Sidebar.module.css';
+import GlowButton from './button/GlowButton';
 
 
-export default function Sidebar({setTab}) {
+export default function Sidebar({setHypothesis}) {
     return (
       <div className={SidebarStyle.sidebar}>
-        <h3 className={SidebarStyle.title}>Trust Study</h3>
-        <div className={SidebarStyle.buttonWord} onClick={()=>setTab("Word")}>Word</div>
-        <div className={SidebarStyle.buttonPerson} onClick={()=>setTab("Person")}>Person</div>
-        <div className={SidebarStyle.buttonBrand} onClick={()=>setTab("Brand")}>Brand</div>
-        <div className={SidebarStyle.buttonSelf} onClick={()=>setTab("Self")}>Self</div>
+        <h3 className="title">In Other Words:</h3>
+          <GlowButton children={"Overview"} color={"white"} onClick={()=>setHypothesis("Overview")}/>
+          <GlowButton children={"H3: Gender"} color={"white"} onClick={()=>setHypothesis("Gender")}/>
+          <GlowButton children={"H4: Age"} color={"white"} onClick={()=>setHypothesis("Age")}/>
       </div>
     );
   }

@@ -11,64 +11,61 @@ const colors = {
   "Self":["#C662D3", "#D87CE1", "#EB95EF"]
 }
 
+function getThemeColor(tab) {
+  return colors[tab][Math.floor(Math.random() * colors[tab].length)];
+}
 
-function getSexColor(value) {
+
+function getSexColor(percentageDifference) {
   const boyishBlue = [1, 117, 196]; // RGB for blue
-  const white = [140, 140, 140]; // RGB for white
+  const white = [160, 160, 160]; // RGB for white
   const girlishPink = [198, 98, 211]; // RGB for pink
-  
+
   function interpolate(color1, color2, factor) {
     return color1.map((color, index) => color + factor * (color2[index] - color));
   }
 
-  const factor = (value - 0.4) / 0.2; // Normalize to a 0-1 range
+  const significant = 0.0513;
+  const highlySignificant = 0.0674;
 
-  if (value < 0.45 | value > 0.55) {
-    if (factor <= 0.5) {
-      return `rgb(${interpolate(boyishBlue, white, factor * 2).join(',')})`;
-    } else {
-      return `rgb(${interpolate(white, girlishPink, (factor - 0.5) * 2).join(',')})`;
-    }
-  } else {
-    return `rgb(${white.join(',')})`;
+  let factor;
+
+  if (Math.abs(percentageDifference) > highlySignificant) {
+    factor = 1.7;
+  }else if (Math.abs(percentageDifference) > significant) {
+    factor = 1;
+  }else{
+    factor = 0;
   }
 
-  // if (value <= 0.4) {
-  //   return `rgb(${boyishBlue.join(',')})`;
-  // } else if (value >= 0.6) {
-  //   return `rgb(${girlishPink.join(',')})`;
-  // } else {   
-  //   if (factor <= 0.5) {
-  //     return `rgb(${interpolate(boyishBlue, white, factor * 2).join(',')})`;
-  //   } else {
-  //     return `rgb(${interpolate(white, girlishPink, (factor - 0.5) * 2).join(',')})`;
-  //   }
-  // }
-}
-
-const callbacks = {
-  getWordColor: word => getSexColor(word.averageBinarySex),
-  onWordClick: console.log,
-  onWordMouseOver: console.log,
-  getWordTooltip: word => `${word.text} (${word.value}) [${word.value > 50 ? "good" : "bad"}]`,
+  if (percentageDifference <= 0) {
+    return `rgb(${interpolate(white, boyishBlue, factor).join(',')})`;
+  } else {
+    return `rgb(${interpolate(white, girlishPink, factor ).join(',')})`;
+  }
 }
 
 
 
-
-function CustomWordCloud({ tab }) {
+function CustomWordCloud({ tab, hypothesis }) {
   const [data, setData] = useState([]);
+  const [callbacks, setCallbacks] = useState({});
   const [options, setOptions] = useState({});
   const [loading, setLoading] = useState(true); // Add this state to track loading
 
-  const fetchData = async (tab) => {
+  const fetchData = async (tab, hypothesis) => {
     try {
       setLoading(true); // Set loading to true when starting to fetch
       let wordColumn = `${tab.toUpperCase()}_association`;
       let result = await fetch(`${baseUrl}/data/wordcloud?column=${wordColumn}`).then(resp => resp.json()); // Don't forget to await here
+      let sex_demographics = await fetch(`${baseUrl}/data/demographics?column=sex`).then(resp => resp.json()); // Don't forget to await here
 
-      let minValue = 0;
-      let maxValue = 100;
+      let maleTotalCount = sex_demographics[0].result.Male;
+      let femaleTotalCount = sex_demographics[0].result.Female;
+
+      var minValue = 0;
+      var maxValue = 100;
+
       result.forEach((word) => {
         word.value = (word.value / 3);
         if (word.value > maxValue) {
@@ -77,25 +74,41 @@ function CustomWordCloud({ tab }) {
         if (word.value < minValue) {
           minValue = word.value;
         }
+
+        let percentageFemale = (word.FemaleCount / femaleTotalCount)
+        let percentageMale = (word.MaleCount / femaleTotalCount)
+
+        word.sexPercentDifference = ((word.FemaleCount / femaleTotalCount) - (word.MaleCount / maleTotalCount));
       });
 
       setData(result);
 
-      var options = {
+      if(hypothesis == "Gender") {
+        setCallbacks( {
+          getWordColor:  word => getSexColor(word.sexPercentDifference),
+          onWordClick: console.log,
+          onWordMouseOver: console.log,
+          getWordTooltip: word => `${word.text} (${word.value}) [${word.value > 50 ? "good" : "bad"}]`,
+        })
+
+      }else{
+        setCallbacks( {
+          getWordColor:  word => getThemeColor(tab),
+          onWordClick: console.log,
+          onWordMouseOver: console.log,
+          getWordTooltip: word => `${word.text} (${word.value}) [${word.value > 50 ? "good" : "bad"}]`,
+        })
+      }
+
+      setOptions( {
         rotations: 2,
         rotationAngles: [0],
         fontSizes: [minValue, maxValue],
         spiral: 'archimedean', // oval-like shape
-        // color:getWordColor
-        // color: colors[tab]
+      });
 
-        // colors: result.map(word => getWordColor(word.averageBinarySex))
-        colors:result.map(word => getSexColor(word.averageBinarySex))
-      };
 
-      // console.log(result.map(word => getSexColor(word.averageBinarySex)))
 
-      setOptions(options);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -104,11 +117,11 @@ function CustomWordCloud({ tab }) {
   };
 
   useEffect(() => {
-    fetchData(tab);
-  }, [tab]);
+    fetchData(tab, hypothesis);
+  }, [tab, hypothesis]);
 
   return (
-    <div style={{ width:"84vw", height:"96vh" }}>
+    <div style={{flexGrow:1}}>
       {loading ? (
         <></>
         ) : (
