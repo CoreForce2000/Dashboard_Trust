@@ -1,1 +1,1 @@
-export const baseUrl = "http://localhost:5050"
+export const baseUrl = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5050';
