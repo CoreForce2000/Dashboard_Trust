@@ -2,4 +2,5 @@
 .tabs {
     display:grid;
     grid-template-columns: 125px 50px 150px 50px 125px;
+    text-align: center;
 }

@@ -17,7 +17,7 @@ export default function HorizontalBarChart({ hypothesis }) {
             } else if (hypothesis == "Gender") {
                 let valuecountSex = await fetch(`${baseUrl}/data/demographics?column=sex`).then(resp => resp.json());
                 valuecountSex = valuecountSex[0].result
-                text = `Sample Men: ${valuecountSex.Male} - Sample Women: ${valuecountSex.Female}`
+                text = `Sample men: ${valuecountSex.Male} | Sample women: ${valuecountSex.Female}`
             } else {
                 let valuecountSex = await fetch(`${baseUrl}/data/demographics?column=sex`).then(resp => resp.json());
                 console.log(valuecountSex)

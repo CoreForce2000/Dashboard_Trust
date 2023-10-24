@@ -5,15 +5,18 @@
     justify-content: center;
 }
 
-.mainGrid {
+.content {
     display:grid;
     grid-template-columns: 1fr 1fr;
+    padding:20px;
     justify-content: center;
     height:100vh;
+    /* color:var(--text-color-secondary); */
+    z-index: 10;
 }
 
 .buttonGroup {
-    border-bottom:1px solid #2C2D33;
+    border-bottom:1px solid var(--border-color);;
 }
 
 .stretchButton {

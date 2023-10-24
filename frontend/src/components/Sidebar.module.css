@@ -2,6 +2,8 @@
 .sidebar {
   width: 300px;
   font-size:17px;
-  border-right:1px solid #2C2D33;
+  /* border-right:1px solid var(--border-color); */
+  background-color: var(--background-primary);
   /* margin-right: 20px; */
 }
+

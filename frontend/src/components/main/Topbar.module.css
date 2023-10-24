@@ -2,7 +2,9 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     justify-content: center;
-    border-bottom:1px solid #2C2D33;
+    /* border-bottom:1px solid #2C2D33; */
+    border-left:2px solid var(--background-primary);
+    background-color: var(--background-primary);
 }
 
 

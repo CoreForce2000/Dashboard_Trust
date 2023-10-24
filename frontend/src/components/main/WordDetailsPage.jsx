@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { baseUrl } from "../../config";
 
 const questions = {
-    "Word":"Who did you think of anyone while answering this question?",
+    "Word":"Who did you think of while answering this question?",
     "Brand":"Provide the name of a BRAND you thought of",
     "Person":"What is your relationship to the PERSON from the previous question?"
   }
@@ -57,7 +57,10 @@ export default function WordCloudPage({ tab, hypothesis }) {
     return (
         <div className={WordDetailsPageStyle.wordDetailPage}>
             <div className={WordDetailsPageStyle.column}>
-                <div className="columnTitle">{questions[tab]}</div>
+                <div className="columnTitle">
+                    <div className="columnText">
+                        {questions[tab]}</div>
+                    </div>
                 {loading ? (
                 <></>
                 ) : (

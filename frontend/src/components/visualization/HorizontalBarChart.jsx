@@ -10,16 +10,16 @@ export default function HorizontalBarChart({ data, hypothesis }) {
             console.log(data)
             return (
                 <>
-                    <Bar dataKey="male" stackId="a" fill="rgb(1, 117, 196)" />
-                    <Bar dataKey="female" stackId="a" fill="rgb(198, 98, 211)" />
+                    <Bar dataKey="male" stackId="a" fill="rgb(30, 88, 196)" />
+                    <Bar dataKey="female" stackId="a" fill="rgb(164, 27, 182)" />
                 </>
             );
         } else if (hypothesis === "Age") {
             return (
                 <>
-                    <Bar dataKey="18-37" stackId="a" fill="rgb(1, 117, 196)" />
+                    <Bar dataKey="18-37" stackId="a" fill="rgb(30, 88, 196)" />
                     <Bar dataKey="38-55" stackId="a" fill="rgb(1, 221, 118)" />
-                    <Bar dataKey="56-88" stackId="a" fill="rgb(198, 150, 100)" />
+                    <Bar dataKey="56-88" stackId="a" fill="rgb(212, 106, 34)" />
                 </>
             );
         } else {
@@ -43,7 +43,12 @@ export default function HorizontalBarChart({ data, hypothesis }) {
                 dataKey="name" 
                 width={300} // Allocating half of the chart width to the YAxis labels
             />
-            <Tooltip isAnimationActive={false}/>
+            <Tooltip isAnimationActive={false} contentStyle={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)', // dark background
+                    border: 'none',
+                    borderRadius: '5px',
+                    color: '#fff' // white text
+                }}/>
             {renderBars()} {/* Calling the function to render the bars */}
         </BarChart>
     );

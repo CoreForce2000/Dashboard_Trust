@@ -14,7 +14,8 @@ export default function Main({ tab }) {
   return (
     <div className={MainStyle.main}>
       <Topbar hypothesis={hypothesis} setHypothesis={setHypothesis}></Topbar>
-      <div className={MainStyle.mainGrid}>
+
+      <div className={MainStyle.content}>
         <WordCloudPage tab={tab} hypothesis={hypothesis}/>
         <WordDetailsPage tab={tab}  hypothesis={hypothesis}/>
       </div>

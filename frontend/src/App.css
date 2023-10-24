@@ -15,7 +15,7 @@
 
 .title {
   font-size: 30px;
-  padding: 30px 40px 30px 40px;
+  padding: 23px 40px 24px 40px;
   text-align: center;
   text-wrap: nowrap;
 }
@@ -40,16 +40,27 @@
   text-wrap: nowrap;
 }
 
+.text {
+  font-size: 15px;
+  font-weight: normal;
+  padding: 30px 40px 30px 40px;
+
+}
 
 .columnTitle {
   display:block;
   font-size: 28px;
   font-family:'Times New Roman', Times, serif;
   text-align: center;
-  padding: 30px 40px 30px 40px;
+  padding: 30px 10px 30px 10px;
   /* text-wrap: nowrap; */
   margin-left:20px;
   margin-right:20px;
-  border-bottom:1px solid #2C2D33;
+  border-bottom:1px solid var(--border-color);
   /* border-top:1px solid #2C2D33; */
+}
+
+.columnText {
+  height:100px;
+  vertical-align: bottom;
 }
