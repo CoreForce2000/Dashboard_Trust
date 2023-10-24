@@ -10,6 +10,8 @@
   font-family:'Times New Roman', Times, serif;
   /* overflow:hidden; */
   text-shadow: none;
+  text-shadow: 4px 4px 4px darkgrey;
+  background-image: url("/frontend/src/assets/newspaper_background.jpg")
 }
 
 

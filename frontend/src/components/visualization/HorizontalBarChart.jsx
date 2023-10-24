@@ -37,7 +37,7 @@ export default function HorizontalBarChart({ data, hypothesis }) {
                 top: 5, right: 30, left: 20, bottom: 5,
             }}
         >
-            <XAxis type="number" padding={{ left: 0, right: 0 }} visibility={"hidden"} />
+            <XAxis type="number" padding={{ left: 0, right: 0 }}  />
             <YAxis 
                 type="category" 
                 dataKey="name" 

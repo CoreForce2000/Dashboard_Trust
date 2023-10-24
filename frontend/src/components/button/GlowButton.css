@@ -11,7 +11,8 @@
 .glowButton:active,
 .glowButton.active {
   /* filter: drop-shadow(0 0 1em var(--glow-color)); */
-  color:var(--glow-color);
+  /* color:var(--glow-color); */
+
   cursor:pointer;
   /* z-index: 1; */
 }
