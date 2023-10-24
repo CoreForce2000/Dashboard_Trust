@@ -1,5 +1,5 @@
 .glowButton {
-    background-color:var(--background-primary);
+    background-color:var(--background-primary-transparent);
     margin: 0px;
     /* padding: 30px 40px 30px 40px; */
     will-change: filter;
