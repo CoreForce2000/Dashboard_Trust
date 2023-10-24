@@ -5,6 +5,11 @@ import {
 
 export default function HorizontalBarChart({ data, hypothesis }) {
 
+    function CustomActiveShape(props) {
+        const { fill, x, y, width, height } = props;
+        return <rect x={x} y={y} width={width} height={height} fill={"rgb(1, 221, 118)"} />;
+      }
+
     function renderBars() {
         if (hypothesis === "Gender") {
             console.log(data)
@@ -23,9 +28,10 @@ export default function HorizontalBarChart({ data, hypothesis }) {
                 </>
             );
         } else {
-            return <Bar dataKey="value" fill="rgb(1, 221, 118)" />;
+            return <Bar activeBar={false} dataKey="value" fill="rgb(1, 221, 118)" />;
         }
     }
+
 
     return (
         <BarChart
@@ -42,12 +48,13 @@ export default function HorizontalBarChart({ data, hypothesis }) {
                 type="category" 
                 dataKey="name" 
                 width={300} // Allocating half of the chart width to the YAxis labels
+
             />
-            <Tooltip isAnimationActive={false} contentStyle={{
+            <Tooltip cursor={false} isAnimationActive={false} contentStyle={{
                     backgroundColor: 'rgba(0, 0, 0, 0.8)', // dark background
                     border: 'none',
                     borderRadius: '5px',
-                    color: '#fff' // white text
+                    color: '#fff', // white text
                 }}/>
             {renderBars()} {/* Calling the function to render the bars */}
         </BarChart>
