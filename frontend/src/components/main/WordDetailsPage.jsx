@@ -48,9 +48,12 @@ export default function WordCloudPage({ tab, hypothesis }) {
                         results.push(row);
                     }
                 });
+                setData(results);
+            } else {
+                setData(data);
             }
 
-            setData(results);
+            
 
 
         } catch (error) {
