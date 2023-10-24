@@ -22,6 +22,7 @@
     "react-bootstrap": "^2.9.1",
     "react-dom": "^16.13.0",
     "react-wordcloud": "^1.2.7",
+    "recharts": "^2.9.0",
     "vis-network": "^9.1.8"
   },
   "devDependencies": {
