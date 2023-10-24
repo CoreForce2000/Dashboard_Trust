@@ -159,7 +159,7 @@ function CustomWordCloud({ tab, hypothesis }) {
   }, [tab, hypothesis]);
 
   return (
-    <div style={{flexGrow:1}}>
+    <div style={{width:"100%", height:"100%"}}>
       {loading ? (
         <></>
         ) : (
