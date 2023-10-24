@@ -39,7 +39,18 @@ export default function WordCloudPage({ tab, hypothesis }) {
 
             let data = await fetch(`${baseUrl}/data/${query}?column=${columnName}`).then(resp => resp.json()); 
 
-            setData(data);
+            let results = []
+
+            if (tab == "Brand") {
+                data.forEach((row) => {
+                    console.log(row.name);
+                    if (row.name != "apple" && row.name != "samsung") {
+                        results.push(row);
+                    }
+                });
+            }
+
+            setData(results);
 
 
         } catch (error) {

@@ -14,7 +14,7 @@ export default function Sidebar({ tab, setTab }) {
     <div className={SidebarStyle.sidebar}>
       <h3 className="title">In Other Words</h3>
 
-      <div className='text'> This study explored the use of word-associations to describe trust across different contexts such as brands and personal relationships with a focus on variations by gender and age</div>
+      <div className='text' style={{paddingTop:"57px"}}> This study explored the use of word-associations to describe trust across different contexts such as brands and personal relationships with a focus on variations by gender and age</div>
 
       <GlowButton
         color={"rgb(1, 221, 118)"} 
