@@ -13,8 +13,15 @@ const colors = {
   "Self":["#C662D3", "#D87CE1", "#EB95EF"]
 }
 
+const boyishBlue = [1, 1, 196]; // RGB for blue  "rgb(1, 117, 196)"
+const limeGreen = [147, 212, 183]
+const green = [1, 221, 118] 
+const black = [26,28,26]
+const white = [220, 220, 220]; // RGB for white
+const girlishPink = [164, 27, 182]; // RGB for pink "rgb(198, 98, 211)"
+
 function getThemeColor(tab) {
-  return "rgb(1, 221, 118)"; //colors["Person"][0];
+  return `rgb(${ black.join(',') })`;
 }
 
 function interpolate(color1, color2, factor) {
@@ -25,31 +32,23 @@ function interpolateInverse(color1, color2, factor) {
 }
 
 function getSexColor(percentageDifference) {
-  const boyishBlue = [1, 1, 196]; // RGB for blue  "rgb(1, 117, 196)"
-  // const limeGreen = [147, 212, 183]
-  const green = [1, 221, 118] 
-  // const white = [220, 220, 220]; // RGB for white
-  const girlishPink = [164, 27, 182]; // RGB for pink "rgb(198, 98, 211)"
+
 
   if (percentageDifference <= 0) {
     percentageDifference = percentageDifference <-7 ? -7 : percentageDifference;
-    return `rgb(${interpolateInverse(green, boyishBlue,  percentageDifference*10 ).join(',')})`;
+    return `rgb(${interpolateInverse(black, boyishBlue,  percentageDifference*10 ).join(',')})`;
   } else {
     percentageDifference = percentageDifference > 7 ? 7 : percentageDifference;
-    return `rgb(${interpolate(green, girlishPink,  percentageDifference*15 ).join(',')})`;
+    return `rgb(${interpolate(black, girlishPink,  percentageDifference*15 ).join(',')})`;
   }
 }
 
 function getAgeColor(percentageDifference) {
-  const boyishBlue = [1, 117, 196]; // RGB for blue
-  // const white = [220, 220, 220]; // RGB for white
-  const green = [1, 221, 118] 
-  const oldishOrange = [198, 150, 100]; // RGB for orange
 
   if (percentageDifference <= 0) {
-    return `rgb(${interpolateInverse(green, boyishBlue,  percentageDifference/5 ).join(',')})`;
+    return `rgb(${interpolateInverse(black, boyishBlue,  percentageDifference/5 ).join(',')})`;
   } else {
-    return `rgb(${interpolate(green, oldishOrange,  percentageDifference/5 ).join(',')})`;
+    return `rgb(${interpolate(black, oldishOrange,  percentageDifference/5 ).join(',')})`;
   }
 }
 

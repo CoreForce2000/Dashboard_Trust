@@ -10,8 +10,8 @@
 .glowButton:hover,
 .glowButton:active,
 .glowButton.active {
-  filter: drop-shadow(0 0 1em var(--glow-color));
+  /* filter: drop-shadow(0 0 1em var(--glow-color)); */
   color:var(--glow-color);
   cursor:pointer;
-  z-index: 1;
+  /* z-index: 1; */
 }

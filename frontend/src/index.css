@@ -1,6 +1,11 @@
 :root {
+  
+  --newspaper-black: rgb(26,28,26);
+  --newspaper-yellow1: rgb(243, 223, 193);
 
-  --text-color-primary: #87888C;
+  --gaming-grey: #87888C;
+  
+  --text-color-primary: var(--newspaper-black);
   --text-color-secondary: #c9cbd1;
 
   --bs-body-color: "white";
@@ -12,7 +17,11 @@
   --bs-btn-bg: rgb(1, 221, 118, 0);
   --bs-btn-color: var(--text-color-primary);
 
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --background-primary: white;
+  --background-secondary: white;
+
+  font-family: 'Times New Roman', Times, serif;
+
   line-height: 1.5;
   font-weight: 400;
 
@@ -31,7 +40,6 @@
 body {
   min-height: 100vh;
   background-color: var(--background-secondary);
-  font-family:Inter;
   font-weight: bold;
   text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black;
 }
