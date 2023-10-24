@@ -10,7 +10,7 @@ export default function App() {
 
   return (
     <div className="dashboard-container">
-      <Sidebar setTab={setTab}/>
+      <Sidebar tab={tab} setTab={setTab}/>
       <Main tab={tab}/>
     </div>
   )

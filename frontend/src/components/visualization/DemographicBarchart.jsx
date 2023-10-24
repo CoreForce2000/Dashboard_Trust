@@ -27,6 +27,7 @@ function DemographicBarchart({ column })  {
       fetchData(column);
     }, [column]);
 
+
     return (
         (
           <>

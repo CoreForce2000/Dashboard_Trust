@@ -3,6 +3,7 @@ import WordCloud from 'react-wordcloud';
 import { baseUrl } from '../../config';
 import { normalizeNumbers } from '../../helpers';
 import { useEffect, useState } from 'react';
+import { ResponsiveContainer } from 'recharts';
 
 const colors = {
 
@@ -24,10 +25,10 @@ function interpolateInverse(color1, color2, factor) {
 }
 
 function getSexColor(percentageDifference) {
-  const boyishBlue = [1, 117, 196]; // RGB for blue
+  const boyishBlue = [1, 117, 196]; // RGB for blue  "rgb(1, 117, 196)"
   const limeGreen = [147, 212, 183]
   // const white = [220, 220, 220]; // RGB for white
-  const girlishPink = [198, 98, 211]; // RGB for pink
+  const girlishPink = [198, 98, 211]; // RGB for pink "rgb(198, 98, 211)"
 
   if (percentageDifference <= 0) {
     return `rgb(${interpolateInverse(limeGreen, boyishBlue,  percentageDifference*15 ).join(',')})`;
@@ -40,7 +41,7 @@ function getAgeColor(percentageDifference) {
   const boyishBlue = [1, 117, 196]; // RGB for blue
   // const white = [220, 220, 220]; // RGB for white
   const limeGreen = [147, 212, 183]
-  const oldishOrange = [198, 150, 100]; // RGB for pink
+  const oldishOrange = [198, 150, 100]; // RGB for orange
 
   if (percentageDifference <= 0) {
     return `rgb(${interpolateInverse(limeGreen, boyishBlue,  percentageDifference/5 ).join(',')})`;
@@ -159,7 +160,7 @@ function CustomWordCloud({ tab, hypothesis }) {
       {loading ? (
         <></>
         ) : (
-          <WordCloud words={data} options={options} callbacks={callbacks} />
+            <WordCloud words={data} options={options} callbacks={callbacks} />
         )}
     </div>
   );

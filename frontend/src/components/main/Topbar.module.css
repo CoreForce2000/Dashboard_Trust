@@ -1,0 +1,20 @@
+.topbar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    border-bottom:1px solid #2C2D33;
+}
+
+
+.info {
+    display:flex;
+    justify-content: left;
+    align-items: center;
+    font-weight: normal;
+}
+
+.legend {
+    
+    display:flex;
+    justify-content: center;
+}

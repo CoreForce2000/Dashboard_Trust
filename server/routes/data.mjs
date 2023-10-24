@@ -179,6 +179,138 @@ router.get('/valuecount', async (req, res) => {
     res.send(results).status(200);
 });
 
+router.get('/valuecountSex', async (req, res) => {
+    let collection = await db.collection("Research");  
+    let results = await collection.aggregate([
+        {
+            "$group": { 
+                "_id": {
+                    "column": `$${req.query.column}`,
+                    "sex": "$sex"
+                }, 
+                "count": { "$sum": 1 }
+            }
+        },
+        {
+            "$group": {
+                "_id": "$_id.column",
+                "counts": {
+                    "$push": {
+                        "sex": "$_id.sex",
+                        "count": "$count"
+                    }
+                }
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "name": "$_id",
+                "male": {
+                    "$sum": {
+                        "$map": {
+                            "input": "$counts",
+                            "as": "count",
+                            "in": {
+                                "$cond": [
+                                    { "$eq": ["$$count.sex", "Male"] },
+                                    "$$count.count",
+                                    0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "female": {
+                    "$sum": {
+                        "$map": {
+                            "input": "$counts",
+                            "as": "count",
+                            "in": {
+                                "$cond": [
+                                    { "$eq": ["$$count.sex", "Female"] },
+                                    "$$count.count",
+                                    0
+                                ]
+                            }
+                        }
+                    }
+                },
+                "value": {
+                    "$sum": {
+                        "$map": {
+                            "input": "$counts",
+                            "as": "count",
+                            "in": "$$count.count"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "$sort": {"value": -1}
+        },
+        {
+            "$limit": 15
+        }
+    ]).toArray()
+    
+    // Sending the result as a response
+    res.send(results).status(200);
+});
+
+
+router.get('/valuecountAge', async (req, res) => {
+    let collection = await db.collection("Research");
+    let results = await collection.aggregate([
+        {
+            "$group": {
+                "_id": `$${req.query.column}`,
+                "18-37": {
+                    "$sum": {
+                        "$cond": [{ "$and": [{ "$gte": ["$age", 18] }, { "$lte": ["$age", 37] }] }, 1, 0]
+                    }
+                },
+                "38-55": {
+                    "$sum": {
+                        "$cond": [{ "$and": [{ "$gte": ["$age", 38] }, { "$lte": ["$age", 55] }] }, 1, 0]
+                    }
+                },
+                "56-88": {
+                    "$sum": {
+                        "$cond": [{ "$and": [{ "$gte": ["$age", 56] }, { "$lte": ["$age", 88] }] }, 1, 0]
+                    }
+                },
+                "value": {
+                    "$sum": 1
+                }
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "name": "$_id",
+                "18-37": 1,
+                "38-55": 1,
+                "56-88": 1,
+                "value": 1
+            }
+        },
+        {
+            "$sort": { "value": -1 }
+        },
+        {
+            "$limit": 15
+        }
+    ]).toArray();
+    
+    // Sending the result as a response
+    res.send(results).status(200);
+});
+
+
+
+
 router.get('/avgAge', async (req, res) => {
     let collection = await db.collection("Research");
 

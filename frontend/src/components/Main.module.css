@@ -5,6 +5,13 @@
     justify-content: center;
 }
 
+.mainGrid {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    height:100vh;
+}
+
 .buttonGroup {
     border-bottom:1px solid #2C2D33;
 }

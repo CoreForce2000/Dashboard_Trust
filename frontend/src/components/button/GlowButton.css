@@ -8,8 +8,8 @@
   
 .glowButton:hover,
 .glowButton:active,
-.glowButton:focus {
-filter: drop-shadow(0 0 1em var(--glow-color));
-color:var(--glow-color);
-cursor:pointer;
+.glowButton.active {
+  filter: drop-shadow(0 0 1em var(--glow-color));
+  color:var(--glow-color);
+  cursor:pointer;
 }
