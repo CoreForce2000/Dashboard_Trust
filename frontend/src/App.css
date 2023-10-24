@@ -50,7 +50,9 @@
 .columnTitle {
   display:block;
   font-size: 28px;
-  font-family:'Times New Roman', Times, serif;
+  font-family: 'Inter', sans-serif;
+  font-weight: normal;
+  /* font-family:'Times New Roman', Times, serif; */
   text-align: center;
   padding: 30px 10px 30px 10px;
   /* text-wrap: nowrap; */
