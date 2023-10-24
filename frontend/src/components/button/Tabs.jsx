@@ -11,7 +11,7 @@ export default function Tabs({ hypothesis, setHypothesis }) {
             onClick={()=> setHypothesis("Gender")}
             > <h3 className="subtitle-topbar"> Gender </h3>  </GlowButton>
 
-        <h3 className="subtitle-topbar"> | </h3>
+            <h3 className="subtitle-topbar"> | </h3>
 
             <GlowButton 
                 color={"rgb(1, 221, 118)"} 
@@ -19,7 +19,7 @@ export default function Tabs({ hypothesis, setHypothesis }) {
                 onClick={()=> setHypothesis("Overview")}
             > <h3 className="subtitle-topbar"> Overview </h3>  </GlowButton>
 
-        <h3 className="subtitle-topbar"> | </h3>
+            <h3 className="subtitle-topbar"> | </h3>
 
             <GlowButton 
                 color={"rgb(1, 221, 118)"} 
